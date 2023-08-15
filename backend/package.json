@@ -5,7 +5,7 @@
   "description": "A Strapi application",
   "scripts": {
     "develop": "strapi develop",
-    "start": "strapi start -H 0.0.0.0 -p ${PORT:-1337}",
+    "start": "strapi start",
     "build": "strapi build",
     "strapi": "strapi",
     "lint": "eslint ."
