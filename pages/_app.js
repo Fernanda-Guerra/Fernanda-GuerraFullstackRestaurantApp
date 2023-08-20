@@ -12,6 +12,7 @@ function MyApp(props){
   const [userState, setUserState] = useState({user:user});
   const { Component, pageProps } = props;
   
+ 
   
   setUser = (usr) => {
     console.log("Setting user:" + JSON.stringify(usr));

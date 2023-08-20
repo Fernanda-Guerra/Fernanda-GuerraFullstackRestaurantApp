@@ -48,7 +48,7 @@ console.log("TESTING@"+ JSON.stringify(user))
             </Link>
           </NavItem>
           <NavItem className="ml-auto">
-            {user ? (
+            {user.username ? (
               <h5>{user.username}</h5>
             ) : (
               <Link href="/register">
@@ -57,7 +57,7 @@ console.log("TESTING@"+ JSON.stringify(user))
             )}
           </NavItem>
           <NavItem>
-            {user ? (
+            {user.username ? (
               <Link href="/">
                 <a
                   className="nav-link"

@@ -51,8 +51,9 @@ function CheckoutForm() {
     console.log("Testing data: " + JSON.stringify(data));
 
     const token = await stripe.createToken(cardElement);
-    console.log("Testing token" + JSON.stringify(token));
+
     const userToken = Cookies.get("token");
+    console.log("userToken: " + userToken);
     const response = await fetch(`${API_URL}/api/orders`, {
       method: "POST",
       headers: {
