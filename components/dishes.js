@@ -16,56 +16,83 @@ function Dishes({restId}){
   const {addItem} = useContext(AppContext)
 
 const GET_RESTAURANT_DISHES = gql`
-  query($id: ID!) {
-    restaurant(id: $id) {
+query ($id: ID!) {
+  restaurant(id: $id) {
+    data {
       id
-      name
-      dishes {
-        id
+      attributes {
         name
-        description
-        price
-        image {
-          url
+        dishes {
+          data {
+            id
+            attributes {
+              name
+              description
+              price
+              image {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
   }
+}
 `;
 
   const router = useRouter();
 
   const { loading, error, data } = useQuery(GET_RESTAURANT_DISHES, {
     variables: { id: restId},
+    fetchPolicy: "no-cache" 
   });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>ERROR here</p>;
   if (!data) return <p>Not found</p>;
 
-  let restaurant = data.restaurant;
+  
 
   if (restId > 0){
-
+    let dishes = data.restaurant.data.attributes.dishes.data.map((dish) => {
+      const flatDish = new Object();
+        flatDish.id = dish.id
+        flatDish.name = dish.attributes.name
+        flatDish.description = dish.attributes.description
+        flatDish.price = dish.attributes.price
+      const image = new Object()
+      image.url = dish.attributes.image.data.attributes.url
+        flatDish.image = image
+        return flatDish
+  });
+    console.log("restaurants: " + JSON.stringify(dishes[0]))
+  
+    
     return (
       <>
-          {restaurant.dishes.map((res) => (
-            <Col xs="6" sm="4" style={{ padding: 0 }} key={res.id}>
+          {dishes.map((dish) => (
+            <Col xs="6" sm="4" style={{ padding: 0 }} key={dish.id}>
               <Card style={{ margin: "0 10px" }}>
                 <CardImg
                   top={true}
                   style={{ height: 150, width:150 }}
-                  src={`http://localhost:1337${res.image.url}`}
+                  src={dish.image.url }
                 />
                 <CardBody>
-                  <CardTitle>{res.name}</CardTitle>
-                  <CardText>{res.description}</CardText>
+                  
+                  <CardTitle>{dish.name}</CardTitle>
+                  <CardText>{dish.description}</CardText>
                 </CardBody>
                 <div className="card-footer">
                   <Button colors="info"
                     outline
                     color="primary"
-                    onClick = {()=> addItem(res)}
+                    onClick = {()=> addItem(dish)}
                   >
                     + Add To Cart
                   </Button>

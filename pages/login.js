@@ -21,6 +21,7 @@ const Login = () => {
   const [error, setError] = useState(false);
   const router = useRouter();
   const appContext = useContext(AppContext);
+  const { setUser } = useContext(AppContext);
 
   useEffect(() => {
     if (appContext.isAuthenticated) {
@@ -86,12 +87,15 @@ const Login = () => {
                         console.log("login in");
                         setLoading(true);
                         login(data.identifier, data.password)
-                        //
-                          .then((res) => {
-                            console.log(`User response: ${JSON.stringify(res.data.user)}`);
-                            appContext.user = res.data.user;
+                        
+                          .then((logs) => {
+                            console.log(`setting user: ${JSON.stringify(logs.data.user)}`)
+                            console.log(`before setting app context: ${JSON.stringify(appContext)}`)
+                            appContext.setUser(logs.data.user);
+                            appContext.currentUser = logs.data.user
+                            appContext.isAuthenticated = true
                             setLoading(false);
-                            console.log(`signed in: ${JSON.stringify(res.data)}`)
+                            console.log(`setting app context: ${JSON.stringify(appContext)}`)
                            
                           })
                           .catch((error) => {

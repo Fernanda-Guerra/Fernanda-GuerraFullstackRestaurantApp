@@ -109,16 +109,16 @@ const checkoutItems = ()=>{
         </CardBody>
       </Card>
       <style jsx>{`
-        #item-price {
+        #item-attributes-price {
           font-size: 1.3em;
           color: rgba(97, 97, 97, 1);
         }
-        #item-quantity {
+        #item-attributes-quantity {
           font-size: 0.95em;
           padding-bottom: 4px;
           color: rgba(158, 158, 158, 1);
         }
-        #item-name {
+        #item-attributes-name {
           font-size: 1.3em;
           color: rgba(97, 97, 97, 1);
         }

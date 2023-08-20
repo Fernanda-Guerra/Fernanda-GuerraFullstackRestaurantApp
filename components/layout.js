@@ -5,13 +5,16 @@ import Head from "next/head";
 import Link from "next/link";
 import { Container, Nav, NavItem } from "reactstrap";
 import AppContext from "./context";
+import { logout } from "../components/auth";
+
 
 const Layout = (props) => {
 const title = "Welcome to Nextjs";
 const appContext = useContext(AppContext);
+const { setUser } = useContext(AppContext);
 const user = appContext.user;
 console.log(`appContext test: ${JSON.stringify(appContext)}`)
-console.log("TESTING@"+user)
+console.log("TESTING@"+ JSON.stringify(user))
   return (
     <div>
       <Head>

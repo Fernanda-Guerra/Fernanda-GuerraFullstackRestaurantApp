@@ -9,6 +9,7 @@ import AppContext from "./context";
 import Cookies from "js-cookie";
 
 
+
 function CheckoutForm() {
   const [data, setData] = useState({
     address: "",
@@ -37,6 +38,7 @@ function CheckoutForm() {
   async function submitOrder() {
     // event.preventDefault();
     
+    
     // // Use elements.getElement to get a reference to the mounted Element.
     const cardElement = elements.getElement(CardElement);
 
@@ -44,23 +46,29 @@ function CheckoutForm() {
     // // Pass the Element directly to other Stripe.js methods:
     // // e.g. createToken - https://stripe.com/docs/js/tokens_sources/create_token?type=cardElement
     // get token back from stripe to process credit card
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://active-family-4359f622e8.strapiapp.com";
+
+    console.log("Testing data: " + JSON.stringify(data));
 
     const token = await stripe.createToken(cardElement);
+    console.log("Testing token" + JSON.stringify(token));
     const userToken = Cookies.get("token");
-    const response = await fetch(`${API_URL}/orders`, {
+    const response = await fetch(`${API_URL}/api/orders`, {
       method: "POST",
-      headers: userToken && { Authorization: `Bearer ${userToken}` },
+      headers: {
+        "Authorization": `Bearer ${userToken}`,
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
-        amount: Number(Math.round(appContext.cart.total + "e2") + "e-2"),
-        dishes: appContext.cart.items,
-        address: data.address,
-        city: data.city,
-        state: data.state,
-        token: token.token.id,
-      }),
-
-    
+        data: {
+          amount: Number(Math.round(appContext.cart.total + "e2") + "e-2"),
+          dishes: appContext.cart.items,
+          address: data.address,
+          city: data.city,
+          state: data.state,
+          token: token.token.id,
+        }
+      }),    
     },
     );
 
@@ -72,8 +80,9 @@ function CheckoutForm() {
     else {
       setError("Order Received!");
       console.log("order submitted");
+    
     }
-
+  
     
     
 

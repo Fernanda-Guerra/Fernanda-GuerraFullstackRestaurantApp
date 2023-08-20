@@ -5,7 +5,7 @@ import Router from "next/router";
 import Cookie from "js-cookie";
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://active-family-4359f622e8.strapiapp.com";
 
 //register a new user
 export const registerUser = (username, email, password) => {
@@ -15,13 +15,13 @@ export const registerUser = (username, email, password) => {
   }
   return new Promise((resolve, reject) => {
     axios
-      .post(`${API_URL}/auth/local/register`, { username, email, password })
-      .then((res) => {
+      .post(`${API_URL}/api/auth/local/register`, { username, email, password })
+      .then((auth) => {
         //set token response from Strapi for server validation
-        Cookie.set("token", res.data.jwt);
+        Cookie.set("token", auth.data.jwt);
 
         //resolve the promise to set loading to false in SignUp form
-        resolve(res);
+        resolve(auth);
         //redirect back to home page for restaurance selection
         Router.push("/");
       })
@@ -40,14 +40,16 @@ export const login = (identifier, password) => {
  console.log(API_URL)
   return new Promise((resolve, reject) => {
     axios
-      .post(`${API_URL}/auth/local/`, { identifier, password })
-      .then((res) => {
+      .post(`${API_URL}/api/auth/local/`, { identifier, password })
+      .then((auth) => {
         console.log("testing auth.js")
         //set token response from Strapi for server validation
-        Cookie.set("token", res.data.jwt);
+        console.log(`setting token:  ${JSON.stringify(auth.data.jwt)}`)
+        Cookie.set("token", auth.data.jwt);
+
 
         //resolve the promise to set loading to false in SignUp form
-        resolve(res);
+        resolve(auth);
         //redirect back to home page for restaurance selection
         Router.push("/");
       })

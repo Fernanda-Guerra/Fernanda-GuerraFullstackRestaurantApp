@@ -92,11 +92,11 @@ const Register = () => {
                       onClick={() => {
                         setLoading(true);
                         registerUser(data.username, data.email, data.password)
-                          .then((res) => {
+                          .then((register) => {
                             // set authed user in global context object
-                            appContext.setUser(res.data.user);
+                            appContext.setUser(register.data.user);
                             setLoading(false);
-                            console.log(`registered user: ${JSON.stringify(res.data)}`)
+                            console.log(`registered user: ${JSON.stringify(register.data)}`)
                           })
                           .catch((error) => {
                             console.log(`error in register: ${error}`)
