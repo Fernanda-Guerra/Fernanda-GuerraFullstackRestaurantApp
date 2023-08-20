@@ -10,6 +10,7 @@ const AppContext = React.createContext(
         total:0},
         addItem:()=>{},
         removeItem:()=>{},
+        deleteCart:()=>{},
         user:null, 
         setUser:()=>{}
     });

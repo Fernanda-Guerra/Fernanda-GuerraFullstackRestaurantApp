@@ -81,6 +81,7 @@ function CheckoutForm() {
     else {
       setError("Order Received!");
       console.log("order submitted");
+      appContext.deleteCart();
     
     }
   
